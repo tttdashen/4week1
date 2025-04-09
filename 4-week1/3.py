@@ -6,3 +6,4 @@ print('I\'m tlf')#\转义符可以完成要求
 print('I"m \'OK\'')
 print("I'm \ntlf")
 print('\\\na')
+print(r'\\')#双重转义
