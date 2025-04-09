@@ -49,7 +49,7 @@ birth=int(a)
 if birth>=2000:
     print('你是00后')
 else:   #!!!!else分支不能跟任何条件
-    prin('你不是00后')
+    print('你不是00后')
 
 name = 'tlf'
 weight = '58kg'
