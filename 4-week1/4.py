@@ -28,3 +28,10 @@ formatted_num = "数字：%10d" % num    # 右对齐，若不足10位前面填�
 formatted_str = "字符串：%-10s" % s  # 左对齐，空位在右侧
 print(formatted_num)  # 输出：数字：        42
 print(formatted_str)  # 输出：字符串：hello     
+
+last_year=70
+this_year=97
+increase_percent=(this_year-last_year)/last_year*100
+formatted_num='小明的成绩提升了:%.1d%%'%increase_percent
+print(formatted_num)
+# 在这个示例中，"%.1f%%" 中的 %.1f 表示将浮点数格式化为保留1位小数，而 %% 则表示输出一个 % 符号。
