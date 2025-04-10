@@ -112,3 +112,33 @@ def add_end(L=None):
     return L
 print(add_end())
 print(add_end())
+
+def calc(numbers):
+    sum = 0
+    for n in numbers:
+        sum = sum + n*n
+    return sum
+print(calc([1,2,3,4]))
+print(calc((1,2,3,4)))
+#*numbers 表示这个函数可以接受任意数量的参数，所有传入的参数会被打包成一个元组 numbers。
+def calc(*numbers):
+    sum = 0
+    for n in numbers:
+        sum = sum + n*n
+    return sum
+print(calc(1,2,3,4))
+print(calc())
+#def calc(*numbers): 可以接受任意数量的位置参数，自动打包成元组。
+#def calc(numbers): 只能接受一个参数，且你需要保证传进去的是一个可迭代对象（列表、元组等）。
+
+num = [1,2,4]
+nums=(2,3,4)
+print(calc(num[0],num[1],num[2]))
+#这种写法当然是可行的，问题是太繁琐，
+# 所以Python允许你在list或tuple前面加一个*号，把list或tuple的元素变成可变参数传进去：
+print(*num)
+print(num)
+print(*nums)
+print(nums)
+print(calc(*num))
+print(calc(*nums))
