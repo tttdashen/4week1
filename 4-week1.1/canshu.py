@@ -175,3 +175,91 @@ person('tlf',23,city='zhengzhou',job='Engineer')
 def person(name,age,*,city='zhengzhou',job):
     print(name,age,city,job)
 person('tlf',23,job='Engineer')
+
+#在Python中定义函数，可以用必选参数、默认参数、可变参数、关键字参数和命名关键字参数，这5种参数都可以组合使用。
+# 但是请注意，参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数。
+
+
+def demo(a, b, c=3, *args, d, e=5, **kwargs):
+    """
+    参数说明：
+    - a, b 是位置参数，调用时必须提供并且按顺序赋值。
+    - c 是默认参数，如果调用时不传，默认值为3；如果通过位置传递，会被覆盖。
+    - *args 接收额外的位置参数，存储为一个元组。
+    - d, e 是命名关键字参数，必须以关键字形式传入，其中 e 有默认值5。
+    - **kwargs 接收其他所有额外的关键字参数，存储为一个字典。
+    """
+    print("a:", a)                # 第1个位置参数
+    print("b:", b)                # 第2个位置参数
+    print("c:", c)                # 第3个位置参数或默认参数
+    print("args:", args)          # 所有额外的位置参数
+    print("d:", d)                # 命名关键字参数 d
+    print("e:", e)                # 命名关键字参数 e（默认值为5）
+    print("kwargs:", kwargs)      # 所有额外的关键字参数
+
+# 调用 demo 函数
+
+# 解释：
+# 位置参数：1 给 a，2 给 b，第三个位置参数 99 给 c。
+# *args 会收集剩余的位置参数 100 和 101，组成元组 (100, 101)。
+# 命名关键字参数：d 必须使用关键字提供，这里传 d=4；e 如果给出则使用传入值，这里传 e=8。
+# **kwargs 会收集剩余的关键字参数，例如 extra1 和 extra2。
+demo(1, 2, 99, 100, 101, d=4, e=8, extra1="hello", extra2="world")
+
+"""
+a: 1
+b: 2
+c: 99
+args: (100, 101)
+d: 4
+e: 8
+kwargs: {'extra1': 'hello', 'extra2': 'world'}
+"""
+
+def mul(*numbers):
+    """
+    计算所有传入数字的乘积
+
+    参数：
+        *numbers：可变参数，传入任意数量的数字
+
+    如果没有传入任何参数，则抛出 TypeError 异常
+    """
+    # 如果没有任何参数，主动抛出 TypeError 异常
+    if len(numbers) == 0:
+        raise TypeError("mul() missing at least one argument")
+    
+    product = 1
+    # 遍历所有传入的数字，累乘
+    for n in numbers:
+        product *= n
+    return product
+
+# 测试代码
+
+# 当只传入一个数字时，应返回这个数字本身
+print('mul(5) =', mul(5))
+# 传入两个数字：5*6 = 30
+print('mul(5, 6) =', mul(5, 6))
+# 传入三个数字：5*6*7 = 210
+print('mul(5, 6, 7) =', mul(5, 6, 7))
+# 传入四个数字：5*6*7*9 = 1890
+print('mul(5, 6, 7, 9) =', mul(5, 6, 7, 9))
+
+# 检查各个测试结果是否正确，依次判断
+if mul(5) != 5:
+    print('mul(5)测试失败!')
+elif mul(5, 6) != 30:
+    print('mul(5, 6)测试失败!')
+elif mul(5, 6, 7) != 210:
+    print('mul(5, 6, 7)测试失败!')
+elif mul(5, 6, 7, 9) != 1890:
+    print('mul(5, 6, 7, 9)测试失败!')
+else:
+    try:
+        # 如果调用不传参数的 mul() 不抛异常，就说明测试失败
+        mul()
+        print('mul()测试失败!')
+    except TypeError:
+        # 正确的做法是当不传参数时抛出 TypeError 异常
+        print('测试成功!')
