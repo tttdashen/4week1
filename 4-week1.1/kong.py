@@ -71,3 +71,21 @@ from my_abs import my_abs
 
 # raise 用来主动抛出异常，告诉调用者传入了不符合要求的参数类型。这种做法有助于及早发现错误，防止错误数据继续传播。
 
+import math #引入math函数，可以调用其中的cos与sin
+
+def move(x, y, step, angle=0):   #定义move函数，x，y位置，step步长，angle=0角度默认为0
+    nx = x + step * math.cos(angle)  #x位置为原始x位置＋步长*cos角度----cos为水平方向分量
+    ny = y - step * math.sin(angle)  ##x位置为原始x位置-步长*sin角度----sin为垂直方向分量
+# 这里计算新的 y 坐标。step * math.sin(angle) 给出垂直方向（y 轴）的位移，不过通常在图形界面中，y 轴的正向是向下，
+# 所以减去这个值（这样才能符合大多数图形坐标系的习惯）。
+# 在数学中的笛卡尔坐标系，y 轴通常向上，但这段代码可能更符合某些图形应用或者游戏中屏幕坐标的约定
+    return nx, ny  #nx,ny为新坐标，这里返回的是一个tuple，可以返回多个值
+# 下面调用 move 函数，并传入具体参数
+# 起始坐标： (100, 100)
+# 移动距离： 60
+# 移动角度： math.pi / 6 —— 这个表达式等于 π/6，代表 30 度（因为 180 度 = π 弧度）
+x,y=move(100,200,60,math.pi/6)#两个变量x,y
+print('新的坐标为：',x,y)
+# 如果用单个变量result接收返回值，则该变量得到的是整个 tuple
+result = move(100, 100, 60, math.pi / 6)
+print("完整的返回结果 tuple：", result)  #所以，Python的函数返回多值其实就是返回一个tuple，但写起来更方便。
