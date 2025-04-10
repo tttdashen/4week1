@@ -158,3 +158,20 @@ print(b)
 # 但是，如果调用者愿意提供更多的参数，我们也能收到。试想你正在做一个用户注册的功能，除了用户名和年龄是必填项外，其他都是可选项，利用关键字参数来定义这个函数就能满足注册的需求。
 c={'city':'zhengzhou','job':'Engineer'}
 person('tlf',23,**c)
+
+def person(name,age,**otherthing):
+    if 'city' in otherthing:
+        pass# 目前占位，没有执行操作
+    if 'job' in otherthing:
+        pass# 目前占位，没有执行操作
+    print('name:',name,'age:',age,'other:',otherthing)
+person('tlf',23,city='zhengzhou')
+
+#如果要限制关键字参数的名字，就可以用命名关键字参数，例如，只接收city和job作为关键字参数。
+def person(name,age,*,city,job):
+    print(name,age,city,job)
+person('tlf',23,city='zhengzhou',job='Engineer')
+
+def person(name,age,*,city='zhengzhou',job):
+    print(name,age,city,job)
+person('tlf',23,job='Engineer')
