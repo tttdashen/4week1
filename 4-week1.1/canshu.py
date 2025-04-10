@@ -142,3 +142,19 @@ print(*nums)
 print(nums)
 print(calc(*num))
 print(calc(*nums))
+
+#*单星号 :
+#  用于接收任意数量的位置参数，它会把这些参数打包成一个 tuple。
+# **双星号 : 
+# 用于接收任意数量的关键字参数，它会把这些参数打包成一个字典，字典中的键（key）是参数的名字，值（value）就是对应的值。
+def person(name,age,**othermessage):
+    print('name:',name,'age:',age,'other:',othermessage)
+a=person('tlf',22)
+b=person('tlf',22,Height=168.5,weight='58kg',city='ZhengZhou')
+print(a)
+print(b)
+#默认返回 None：如果函数没有 return 语句，调用函数的返回值默认是 None。
+#关键字参数有什么用？它可以扩展函数的功能。比如，在person函数里，我们保证能接收到name和age这两个参数，
+# 但是，如果调用者愿意提供更多的参数，我们也能收到。试想你正在做一个用户注册的功能，除了用户名和年龄是必填项外，其他都是可选项，利用关键字参数来定义这个函数就能满足注册的需求。
+c={'city':'zhengzhou','job':'Engineer'}
+person('tlf',23,**c)
