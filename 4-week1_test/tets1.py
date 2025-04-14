@@ -24,4 +24,6 @@ for i in range(len(nums)):
             found = True
 if not found:
     print('没有符合要求的数')
+#nums[0]=2和nums[1]=7的和为9 
 
+#力扣风格
