@@ -40,3 +40,14 @@ for i,value in enumerate(['A','B','C']):
 for x,y in [(1,2),(2,4),(3,9)]:
     print(x,y)
 
+def finminandmax(L):
+    if len(L)==0:
+        return(None,None)
+    min_val=L[0]
+    max_val=L[0]
+    for x in L:
+        if x<min_val:
+            min_val = x
+        if x>max_val:
+            max_val = x
+    return(min_val,max_val)
