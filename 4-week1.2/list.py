@@ -35,3 +35,27 @@ print(M)
 L = ['Hello', 'World', 'IBM', 'Apple']
 M = [s.lower() for s in L]
 print(M)
+
+#在一个列表生成式中，for前面的if ... else是表达式，而for后面的if是过滤条件，不能带else
+
+#test
+L1=['Hello',1,None,'star','GOOD']
+L2=[]
+for x in L1:
+    if isinstance(x,str)==True:
+        L2.append(x)
+M=[s.lower() for s in L2]
+print(M)
+if M==['hello','star','good']:
+    print('测试成功')
+else:
+    print('测试失败')
+
+#test2
+L1 = ['Hello', 'World', 18, 'Apple', None]
+L2=[s.lower() for s in L1 if isinstance(s,str)]
+print(L2)
+if L2 == ['hello', 'world', 'apple']:
+    print('测试通过!')
+else:
+    print('测试失败!')
