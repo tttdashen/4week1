@@ -99,3 +99,73 @@ def d(s):
 print(d('12345678'))
 
 
+
+#将用户的首字母大写，其余小写
+
+def normalize(name):
+    return name.capitalize()
+L1=['AbC','tlf','XYZ']
+L2=list(map(normalize,L1))
+print(L2)
+'''
+str.capitalize() 会将字符串变为：
+第一个字母大写
+其余全部小写
+'''
+
+def normalize(name):
+    return name[0].upper()+name[1:].lower()
+L1=['AbC','tlf','XYZ']
+result=map(normalize,L1)
+print(list(result))
+
+#eg:2 实现累积
+from functools import reduce
+def prod(L):
+    return reduce(lambda x,y:x*y,L)
+print('3*5*7*9=',prod([3,5,7,9]))
+if prod([3,5,7,9])==945:
+    print('测试成功')
+else:
+    print('测试失败')
+
+
+#eg3 将字符串转化为浮点数
+from functools import reduce
+DIGITS={'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9}
+def strfloat(s):
+    int_part,frac_part=s.split('.')
+    def f(x,y):
+        return x*10+y
+    def g(z):
+        return DIGITS[z]
+    int_value=reduce(f,map(g,int_part))
+    frac_value=reduce(f,map(g,frac_part))/(10**len(frac_part))#原本得到的456应该除以1000，而1000=10**3，3是小数部分‘456’的长度
+    return int_value+frac_value
+print('strfloat(\'123.456\') =',strfloat('123.456'))
+if abs(strfloat('123.456') - 123.456) < 0.00001:# < 0.00001的意义是避免浮点数精度误差！
+    print('测试成功!')
+else:
+    print('测试失败!')
+
+'''
+浮点数在计算机中不是精确的
+在 Python（和大多数编程语言）中：
+
+浮点数是用 二进制近似 表示的
+
+所以像 123.456 这种十进制小数，有时在内存中存储的其实是个“非常非常接近”的值，比如：
+
+123.456  → 实际存的可能是 123.4559999999999998
+所以不能用 == 比较浮点数
+如果你写：
+
+if str2float('123.456') == 123.456
+它可能会 失败，因为：
+
+str2float('123.456') → 123.455999999...
+虽然人类看来是对的，但计算机会觉得“不等”。
+解决办法：用误差范围来比较
+
+abs(计算值 - 正确值) < 允许的误差
+'''
