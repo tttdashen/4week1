@@ -36,3 +36,8 @@ print(nex_nums)
 # 用 map 实现
 print(list(map(lambda x: x * 2, nums)))  # [2, 4, 6]
 #map() 是 函数式编程风格，相比 for 循环：更加“简洁”更利于链式处理
+
+A = [1,2,3,4,5,6,7]
+result=map(str,A)
+print(list(result))
+#全部转化为字符串
