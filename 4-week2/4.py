@@ -10,3 +10,13 @@ print(sorted(C))#对字符串排序，是按照ASCII的大小比较的，由于'
 #['Credit', 'Zoo', 'about', 'bob']
 print(sorted(C,key=str.lower))
 print(sorted(C,key=str.lower,reverse=True))
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+def by_name(t):
+    return t[0]
+L2 = sorted(L,key=by_name)
+print(L2)
+def by_point(s):
+    return s[1]
+L3 = sorted(L,key=by_point)
+print(L3)
