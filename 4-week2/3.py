@@ -53,4 +53,3 @@ if list(filter(is_palindrome, range(1, 200))) == [
     print('测试成功!')
 else:
     print('测试失败!')
-
