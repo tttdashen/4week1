@@ -104,3 +104,19 @@ f = inc()
 print(f()) # 1
 print(f()) # 2
 
+
+def createCounter():
+    count=0
+    def counter():
+        nonlocal count
+        count=count+1#count += 1
+        return count
+    return counter
+
+counterA = createCounter()
+print(counterA(), counterA(), counterA(), counterA(), counterA())
+counterB = createCounter()
+if [counterB(), counterB(), counterB(), counterB()] == [1, 2, 3, 4]:
+    print('测试通过!')
+else:
+    print('测试失败!')
