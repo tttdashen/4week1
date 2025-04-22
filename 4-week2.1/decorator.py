@@ -1,18 +1,18 @@
-#函数也是对象,任何能被变量引用、能传参、能作为返回值的东西，都是 Python 一等公民（对象）。函数也是。
-def now():
-    print('My name is tlf')
-f=now
-f()#调用函数，等同于now()
+# #函数也是对象,任何能被变量引用、能传参、能作为返回值的东西，都是 Python 一等公民（对象）。函数也是。
+# def now():
+#     print('My name is tlf')
+# f=now
+# f()#调用函数，等同于now()
 
-#_name_,函数的身份证
-#每个函数对象都有很多“内置属性”。
-#__name__ 就是“这个函数原来叫什么名字”。
-print(now.__name__)
-print(f.__name__)
+# #_name_,函数的身份证
+# #每个函数对象都有很多“内置属性”。
+# #__name__ 就是“这个函数原来叫什么名字”。
+# print(now.__name__)
+# print(f.__name__)
 
-#装饰器（decorator）动机
-#需求：在 不改动原函数代码 的前提下，“偷偷”给函数加新功能。
-#举例：给 now() 自动打日志 ➜ “调用前说一声，调用后再说一声”。
+# #装饰器（decorator）动机
+# #需求：在 不改动原函数代码 的前提下，“偷偷”给函数加新功能。
+# #举例：给 now() 自动打日志 ➜ “调用前说一声，调用后再说一声”。
 
 '''
 场景：给 now() 套一层“礼物包装”
@@ -79,3 +79,36 @@ log 返回的 wrapper 会不会丢失函数名？ | 默认会，把 wrapper.__na
 
 只要把它想成“给函数套礼物包装”，先送进去、再拿出来的就是“原礼物+包装”，就不会混淆了！
 '''
+
+
+#1.函数也是变量-可以赋值给变量
+def now():
+    print('I am tlf')
+f=now
+f()
+print('now._name_:',now.__name__)
+print('f._name_:',f.__name__)
+print('_'*30)
+
+#2.写一个打印日志的装饰器，不改变原函数的定义
+def log(fnc):
+    def wrapper(*args,**kwargs):
+        print(f'[log] call {fnc.__name__}()')
+        result=fnc(*args,**kwargs)
+        print(f'[log] end {fnc.__name__}()')
+        return result
+    return wrapper
+
+#3.用两种方式把 now()“打包”成带日志的新函数
+#3-A手动替换
+now_with_log=log(now)
+print('手动调用 now_with_log():')
+now_with_log()
+print('_'*30)
+#3-B使用@log语法糖
+@log#等价于now=log(now)
+def now():
+    print('I am tlf')
+print('再次调用now():')
+now()
+
