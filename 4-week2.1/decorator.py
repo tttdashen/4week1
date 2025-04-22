@@ -111,4 +111,40 @@ def now():
     print('I am tlf')
 print('再次调用now():')
 now()
+print('_'*30)
 
+#如果装饰器本身需要传入参数，那就需要编写一个返回decorator的高阶函数，写出来会更复杂。比如，要自定义log的文本：
+def log(text):
+    def decorator(fnc):
+        def wrapper(*args,**kw):
+            print(f'[{text}] call:',fnc.__name__)
+            return fnc(*args,**kw)
+        return wrapper
+    return decorator
+#手动替换
+@log('Debug')
+def today():
+    print("2024-6-1")
+today()
+print('_'*30)
+
+#问题：装饰后，today.__name__ 变成 wrapper，元信息丢失。
+#解决：在 wrapper 上加 @wraps(func)
+from functools import wraps
+
+def log(text):
+    def decorator(func):
+        @wraps(func)                 # ← 关键：一行搞定元信息复制
+        def wrapper(*a, **k):
+            print(f"[{text}] call", func.__name__)
+            return func(*a, **k)
+        return wrapper
+    return decorator
+@log("INFO")
+def today():
+    """Print today."""
+    print("2024-6-1")
+
+today()
+print("函数名  :", today.__name__)   # 仍然是 today
+print("文档字符串:", today.__doc__)  # 仍然存在
