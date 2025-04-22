@@ -148,3 +148,91 @@ def today():
 today()
 print("函数名  :", today.__name__)   # 仍然是 today
 print("文档字符串:", today.__doc__)  # 仍然存在
+print('_'*30)
+
+
+
+
+
+import time
+import functools
+'''
+import time | 引入标准库 time，里面有 高精度计时 函数
+import functools | 引入 functools.wraps，用于保留原函数元数据
+'''
+
+def metric(fn):
+    @functools.wraps(fn)
+    def wrapper(*args,**hw):
+        start = time.perf_counter()
+        result=fn(*args,**hw)
+        end=time.perf_counter()
+        cost_ms=(end-start)*1000
+        print(f'{fn.__name__} exxcuted in {cost_ms:.3f}')
+        return result
+    return wrapper
+'''
+装饰器函数 metric(fn)
+def metric(fn): | 第 1 层函数：接收 被装饰 的函数对象 fn
+@functools.wraps(fn) | 给下一层 wrapper 打补丁，让它保留 fn.__name__、fn.__doc__ 等属性
+def wrapper(*args, **kwargs): | 第 2 层函数：真正执行“计时 + 调用 + 打印”逻辑；*args, **hw 使其兼容任何参数形式
+
+2.1 计时三步
+start = time.perf_counter() | 记录高精度起点 | perf_counter() 专为性能计时设计，比 time.time() 精度更高
+result = fn(*args, **kwargs) | 真正调用原函数 | 参数原样转发，确保不破坏调用方式
+end = time.perf_counter() | 记录高精度终点 | 与起点相同 API，保证精度一致
+
+2.2 结果处理
+(end - start) 得到 秒，乘 1000 转为 毫秒
+:.3f 格式化：保留 3 位小数
+fn.__name__ 打印原函数名称，得益于 @wraps(fn) 保留
+
+2.3 返回值
+return result
+装饰器的 wrapper 必须把原函数的返回值传回调用者，否则功能被破坏
+
+2.4 返回“新函数”
+return wrapper
+metric(fn) 的最终返回值 不是结果，而是新函数
+解释器看到 @metric 时，会把 fast = metric(fast) 绑定过去
+
+'''
+
+
+
+
+@metric
+def fast(x,y):
+    time.sleep(0.0012)
+    return x+y
+
+@metric
+def slow(x,y,z):
+    time.sleep(0.1234)
+    return x*y*z
+
+'''
+3. 使用装饰器的两种写法
+@metric | fast = metric(fast)
+@metric（带参数的情况） | 若要写 @metric("DEBUG")，就需要 3 层函数，原理同前面讲过
+'''
+
+
+f=fast(11,22)
+s=slow(11,22,33)
+
+print("fast return ->", f)
+print("slow return ->", s)
+
+if f != 33:
+    print('测试失败!')
+elif s != 7986:
+    print('测试失败!')
+else:
+    print('测试通过!')
+
+#这段 @metric 代码到底干了什么？
+# 一句话：
+# 给任何函数贴上 @metric，它就会在每次调用时自动告诉你——
+# “这个函数从开始到结束，一共花了 X 毫秒”。
+
