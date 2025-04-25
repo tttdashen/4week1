@@ -1,9 +1,10 @@
 #面向对象和面向过程的语言区别
 
 '''
-求班级成绩与
+求班级成绩与平均成绩
 '''
-#面向过程
+
+
 students=[]#构建一个空列表
 def add_student(name,score):
     students.append({'name':name,'score':score})
@@ -53,7 +54,9 @@ manager.print_all()
 print("平均分:", manager.average_score())
 print('_'*50+'\n')
 
-#饭店点菜系统：记录点了什么菜，计算总价格
+'''
+饭店点菜系统
+'''
 #面向过程
 
 dishes=[]#创建空列表保存所有菜
@@ -110,3 +113,110 @@ menu.add_dish(Dish("宫保鸡丁", 25))  # 这里 Dish 是创建菜，add_dish �
 menu.add_dish(Dish("鱼香肉丝", 22))
 menu.show_all()
 print('总价:',menu.total_price(),'元')
+
+
+'''
+图书馆借书系统：
+共两个类
+
+定义书：
+1.书的信息-名字-作者-初始状态
+2.书籍的基本状态-是否可以借
+3.借还书的逻辑：
+（1）书未被借：借书打印借书成功的信息---书背借了：打印借书失败的信息
+（2）书没有被借：打印书本来就没被借出去何谈归还---书被借走了：打印成功归还
+
+定义图书馆：
+1.定义图书馆：用于保存所有书
+2.图书馆添加书籍功能
+3.图书馆打印目前所有藏书信息
+4.图书馆借书功能--是否可以借书
+5.图书馆遍历功能-可以确定借的书是否在藏书中
+
+实际操作：
+1.创建图书馆对象
+2.添加书籍给图书馆-图书馆类功能
+3.查看所有书籍功能-图书馆类功能
+4.借出某本书-图书馆类功能
+5.再借一次试试看-图书馆类功能
+6.归还-图书馆类功能
+7.查看图书馆藏书状态变化-图书馆类功能
+'''
+class Book:
+    def __init__(self,title,author):
+        self.title= title
+        self.author = author
+        self.is_borrowed=False # 初始状态是未借出
+    def display_info(self):
+        status = '已借出' if self.is_borrowed else '可借'
+        print(f'{self.title} by {self.author} - 状态：{status}')
+    def borrow(self):
+        if self.is_borrowed:
+            print(f"{self.title} 已经被借出去了")
+        else:
+            self.is_borrowed = True
+            print(f'你已经成功借阅了 {self.title}')
+    def return_book(self):
+        if not self.is_borrowed:
+             print(f"{self.title}本来就没有被借出")
+        else:
+             self.is_borrowed = False
+             print(f"你已成功归还《{self.title}》")
+
+
+'''
+等同于
+if self.is_borrowed:
+    status='已借出'
+else:
+    status='可借'
+
+self.is_borrowed=False # 初始状态是未借出
+但是if self.is_borrowed: 这句的意思其实是：
+✅ “如果这个书的 is_borrowed 是 True（即已经被借出）
+''' 
+
+class Library:
+    def __init__(self):
+        self.books=[]# 用于保存所有 Book 对象
+    def add_book(self,book):
+        self.books.append(book)
+        print(f"已添加书籍：《{book.title}》")
+    def list_books(self):
+        print("当前图书馆藏书：")
+        for book in self.books:
+            book.display_info()
+    def borrow_book(self,title):
+        for book in self.books:
+            if book.title == title:
+                book.borrow()
+                return
+        print(f"没有找到《{title}》这本书")
+    def return_book(self, title):
+        for book in self.books:
+            if book.title == title:
+                book.return_book()
+                return
+        print(f"没有找到《{title}》这本书")
+
+# 创建图书馆对象
+lib = Library()
+
+# 添加书籍
+lib.add_book(Book("三体", "刘慈欣"))
+lib.add_book(Book("活着", "余华"))
+
+# 查看所有书籍
+lib.list_books()
+
+# 借出一本书
+lib.borrow_book("三体")
+
+# 再借一次试试看
+lib.borrow_book("三体")
+
+# 归还
+lib.return_book("三体")
+
+# 查看状态变化
+lib.list_books()
