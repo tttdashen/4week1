@@ -113,6 +113,7 @@ menu.add_dish(Dish("宫保鸡丁", 25))  # 这里 Dish 是创建菜，add_dish �
 menu.add_dish(Dish("鱼香肉丝", 22))
 menu.show_all()
 print('总价:',menu.total_price(),'元')
+print('_'*30)
 
 
 '''
@@ -220,3 +221,66 @@ lib.return_book("三体")
 
 # 查看状态变化
 lib.list_books()
+print('_'*30)
+
+
+#班级成绩管理系统
+'''
+两个类：
+student：
+1.学生信息：姓名-学号-成绩
+2.属性：显示学生信息
+
+classroom：
+1.属性：保存所有学生
+2.方法：
+添加学生-显示所有学生信息-计算所有学生平均分-查找指定学号学生信息
+
+实际操作：
+1.创建班级对象
+2.添加学生信息
+3.打印学生列表
+4.打印全班平均分
+5.查找某个学生成绩
+'''
+class Student:
+    def __init__(self,name,number,score):
+        self.name=name
+        self.number=number
+        self.score=score
+    def display_info(self):
+        print(f'姓名:{self.name},学号：{self.number},成绩：{self.score}')
+
+class Classroom:
+    def __init__(self):
+        self.students=[]
+    def add_student(self,student):
+        self.students.append(student)
+        print(f'添加成功：{student.name}')
+    def list_students(self):
+        print('全班学生信息：')
+        for student in self.students:
+            student.display_info()
+    def average_score(self):
+        if not self.students:
+            print('暂无学生信息')
+            return
+        total = sum(s.score for s in self.students)
+        avg = total/len(self.students)
+        print(f"全班平均分：{avg:.2f}")
+    def find_student(self,student_number):
+        for s in self.students:
+            if s.number == student_number:
+                print('查找结果为：')
+                s.display_info()
+                return
+        print(f"未找到学号为 {student_number} 的学生")
+
+classroom=Classroom()
+classroom.add_student(Student("小明", "202301", 85))
+classroom.add_student(Student("小红", "202302", 92))
+classroom.add_student(Student("小刚", "202303", 76))
+classroom.list_students()
+classroom.average_score()
+classroom.find_student("202302")
+classroom.find_student("202399")
