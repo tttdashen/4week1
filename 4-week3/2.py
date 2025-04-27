@@ -1,3 +1,8 @@
+from sys import settrace
+from threading import settrace_all_threads
+from turtle import width
+
+
 class Student():
     def get_score(self):
         return self._score
@@ -132,8 +137,52 @@ s = Student(2000)
 print(s.birth)  # ✅ 触发 @property，自动执行 birth()
 print('_'*30)
 print(s._birth) # ✅ 直接访问底层变量
+print('_'*30)
 '''
 访问 | 触发什么 | 结果
 s.birth | 触发 @property -> 执行 getter 方法 | 执行逻辑，返回值
 s._birth | 普通变量访问 | 直接拿值，无执行逻辑
 注意：外部永远只跟 birth 打交道，不直接碰 _birth！'''
+
+#长宽使用
+class Screen():
+    def __init__(self):
+        self._width=0
+        self._height=0
+    
+    @property
+    def width(self):
+        return self._width
+    @width.setter
+    def width(self, value):
+        if not isinstance(value, int):
+            raise ValueError('width must be an integer!')
+        if value <= 0:
+            raise ValueError('width must be positive!')
+        self._width = value
+    @property
+    def height(self):
+        return self._height
+
+    @height.setter
+    def height(self, value):
+        if not isinstance(value, int):
+            raise ValueError('height must be an integer!')
+        if value <= 0:
+            raise ValueError('height must be positive!')
+        self._height = value
+    @property
+    def resolution(self):
+        return self._width * self._height   # 只读属性，返回宽*高
+#没有 @resolution.setter，所以是只读的。
+#外部只能 print(s.resolution)，不能 s.resolution = xxx。
+# 测试
+s = Screen()
+s.width = 1024
+s.height = 768
+print('resolution =', s.resolution)
+
+if s.resolution == 786432:
+    print('测试通过!')
+else:
+    print('测试失败!')
