@@ -61,3 +61,20 @@ Mon = 0
 不统一，容易混乱	类型统一归属（Month/Weekday）	代码更规范
 无检查机制	@unique 强制值唯一	避免逻辑错误
 没有结构	有明确结构（成员名、成员值）	维护方便'''
+
+
+from enum import Enum
+@unique
+class Gender(Enum):
+    Male=0
+    Female = 1
+class Student():
+    def __init__(self,name,gender):
+        self.name=name
+        self.gender=gender
+
+student=Student('tlf',Gender.Male)
+if student.gender==Gender.Male:
+    print('测试通过!')
+else:
+    print('测试失败!')
